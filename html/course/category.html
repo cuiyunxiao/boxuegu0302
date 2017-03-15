@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学IT - 后台管理系统</title>
+    <?php include('../common/style.html') ?>
+</head>
+<body>
+    <?php include('../common/aside.html') ?>
+    <!-- 主体 -->
+    <div class="main">
+        <div class="container-fluid">
+            <?php include('../common/header.html') ?>
+            <div class="body course-category">
+                <!-- 面包屑 -->
+                <ol class="breadcrumb">
+                    <li><a href="javascript:;">课程管理</a></li>
+                    <li class="active">课程分类</li>
+                </ol>
+                <div class="page-title">
+                    <a href="/html/course/category_add.html" class="btn btn-success btn-sm pull-right">添加分类</a>
+                </div>
+                <div class="panel panel-default">
+                    <table id="category-list-table" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="18%">分类名称</th>
+                                <th>课程数量</th>
+                                <th>是否显示</th>
+                                <th>排序</th>
+                                <th width="10%">操作</th>
+                            </tr>
+                        </thead>
+                        <!-- 课程分类列表的坑 -->
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 课程分类列表模版 -->
+    <script id="category-list-tpl" type="text/tpl">
+    	<tbody>
+    			{{ each list }}
+                <tr class="{{ $value.cg_pid == 0? 'active': '' }}">
+                    <td class="text-left">{{ $value.cg_pid == 0? $value.cg_name: '&nbsp;&nbsp;├ ' + $value.cg_name }}</td>
+                    <td>{{ $value.total }}</td>
+                    <td>{{ $value.cg_is_hide == 0? '是': '否' }}</td>
+                    <td>{{ $value.cg_order }}</td>
+                    <td>
+                        <a href="/html/course/category_add.html?cg_id={{ $value.cg_id }}" class="btn btn-info btn-xs">编辑</a>
+                    </td>
+                </tr>
+                {{ /each }}
+            </tbody>
+    </script>
+    <?php include('../common/script.html') ?>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学IT - 后台管理系统</title>
+    <?php include('../common/style.html') ?>
+</head>
+<body>
+    <?php include('../common/aside.html') ?>
+    <!-- 主体 -->
+    <div class="main">
+        <div class="container-fluid">
+            <?php include('../common/header.html') ?>
+            <div class="body course-category">
+            	<!-- 页面主体的坑 -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- 页面主体的模版 -->
+    <script id="category-list-tpl" type="text/tpl">
+    	<!-- 面包屑 -->
+        <ol class="breadcrumb">
+            <li><a href="javascript:;">课程管理</a></li>
+            <li class="active">{{ cg_id? '编辑分类': '添加分类' }}</li>
+        </ol>
+        <div class="category-add">
+            <form id="category-manage-form" action="" class="form-horizontal">
+                <div class="form-group">
+                    <label for="" class="col-xs-4 control-label">名称</label>
+                    <div class="col-xs-3"> 
+                        <input name="cg_name" value="{{ cg_name }}" type="text" class="form-control input-sm" placeholder="填写分类名称">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-xs-4 control-label">级别</label>
+                    <div class="col-xs-2">
+                        <select name="" class="form-control input-sm">
+                        	{{ each top }}
+                        	<!-- 这里是所有的顶级分类，要根据当前编辑分类的pid来进行默认选择 -->
+                            <option value="{{ $value.cg_id }}" {{ $value.cg_id  == cg_pid? 'selected': '' }} >{{ $value.cg_name }}</option>
+                            {{ /each }}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-xs-4 control-label">排序</label>
+                    <div class="col-xs-1">
+                        <input name="cg_order" type="text" class="form-control input-sm" value="{{ cg_order }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-xs-4 control-label">是否显示</label>
+                    <div class="col-xs-3">
+                        <label class="checkbox-inline">
+                            <input name="cg_is_hide" value="0" type="radio" {{ cg_is_hide == 0? 'checked': '' }}> 是
+                        </label>
+                        <label class="checkbox-inline">
+                            <input name="cg_is_hide" value="1" type="radio" {{ cg_is_hide == 1? 'checked': '' }}> 否
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-8">
+                        <button type="submit" class="btn btn-success btn-sm pull-right">保存</button>
+                    </div>    
+                </div>
+            </form>
+        </div>
+    </script>
+    <?php include('../common/script.html') ?>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学IT - 后台管理系统</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <?php include('../common/style.html') ?>
+</head>
+<body>
+    <?php include('../common/aside.html') ?>
+    <!-- 主体 -->
+    <div class="main">
+        <div class="container-fluid">
+            <?php include('../common/header.html') ?>
+            <!-- 讲师列表 -->
+            <div class="body teacher-list">
+                <!-- 面包屑 -->
+                <ol class="breadcrumb">
+                    <li><a href="javascript:;">讲师管理</a></li>
+                    <li class="active">讲师列表</li>
+                </ol>
+                <div class="page-title">
+                    <a href="/html/teacher/add.html" class="btn btn-success btn-sm pull-right">添加讲师</a>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form action="" class="form-inline">
+                            <div class="input-group">
+                                <input type="text" class="form-control input-sm">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-success btn-sm">搜索</button>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>编号</th>
+                                <th>姓名</th>
+                                <th>昵称</th>
+                                <th>出生日期</th>
+                                <th>性别</th>
+                                <th>手机号码</th>
+                                <th>邮箱</th>
+                                <th>入职日期</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+						<tbody id="teacher-list-tbody">
+							<!--  讲师列表的坑 -->
+						</tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 讲师查看面板 -->
+    <div class="modal fade" id="teacherModal"></div>
+    
+    <!-- 讲师列表模版 -->
+    <script type="text/tpl" id="teacher-list-tpl">
+    	{{ each list as teacher i }}
+	        <tr>
+	            <td>{{ i +1 }}</td>
+	            <td>{{ teacher.tc_name }}</td>
+	            <td>{{ teacher.tc_roster }}</td>
+	            <td>{{ teacher.tc_birthday }}</td>
+	            <td>{{ teacher.tc_gender == 0? '男': '女'  }}</td>
+	            <td>{{ teacher.tc_cellphone }}</td>
+	            <td>{{ teacher.tc_email }}</td>
+	            <td>{{ teacher.tc_join_date }}</td>
+	            <td data-id='{{ teacher.tc_id }}' data-status="{{ teacher.tc_status }}">
+	                <a href="#teacherModal" data-toggle="modal" class="btn btn-info btn-xs teacher-view">查 看</a>
+	                <a href="/html/teacher/add.html?tc_id={{ teacher.tc_id }}" class="btn btn-info btn-xs">编 辑</a>
+	                <!-- status的值为0代表注销，1代表开启 -->
+	                <a href="javascript::" class="btn btn-warning btn-xs teacher-status">{{ teacher.tc_status == 0? '开启': '注销' }}</a>
+	            </td>
+	        </tr>
+        {{ /each }}
+    </script>
+
+    <!-- 讲师查看面板模版 -->
+    <script type="text/tpl" id="teacher-view-tpl">
+        <div class="modal-dialog" style="width: 750px;">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="panel-title">讲师信息</h4>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered table-condensed">
+                        <tbody>
+                            <tr>
+                                <th>姓名:</th><td>{{ tc_name }}</td>
+                                <th>职位:</th><td colspan="3">讲师</td>
+                                <td rowspan="4" width="128">
+                                    <div class="avatar">
+                                        <img src="{{ tc_avatar? tc_avatar: '/img/default.png' }}" alt="">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>花名:</th><td>{{ tc_roster }}</td>
+                                <th>入职日期:</th><td colspan="3">{{ tc_join_date }}</td>
+                            </tr>
+                            <tr>
+                                <th>性别:</th><td>{{ tc_gender == 0? '男': '女' }}</td>
+                                <th>出生日期:</th><td colspan="3">{{ tc_birthday }}</td>
+                            </tr>
+                            <tr>
+                                <th>手机号码:</th><td colspan="2">{{ tc_cellphone }}</td>
+                                <th>邮箱:</th><td colspan="2">{{ tc_email }}</td>
+                            </tr>
+                            <tr>
+                                <th>籍贯:</th><td colspan="6">{{ tc_hometown.split('|').join(' ') }}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="7">
+                                    <div class="introduce">
+                                     	{{ #tc_introduce }}
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </script>
+    <?php include('../common/script.html') ?>
+</body>
+</html>
